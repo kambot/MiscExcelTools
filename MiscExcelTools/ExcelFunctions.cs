@@ -464,8 +464,27 @@ namespace MiscExcelTools
         }//Join
 
         // -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Split
+        [ExcelFunction(Category = "MiscExcelTools", Description = "Split text", IsMacroType = true)]
+        public static object Split([ExcelArgument(Description = "Text", Name = "text")] object text,
+                                        [ExcelArgument(Description = "What to split by", Name = "splitter")] object splitter,
+                                        [ExcelArgument(Description = "Which element to return in the split list", Name = "element")] int element)
+        {
+            string _text = Convert.ToString(text);
+            string _splitter = Convert.ToString(splitter);
+            int _element = Convert.ToInt16(element);
 
+            if (text.GetType() == ExcelDna.Integration.ExcelEmpty.Value.GetType())
+                _text = "";
 
+            if (splitter.GetType() == ExcelDna.Integration.ExcelEmpty.Value.GetType())
+                _splitter = "";
+
+            return _text.Split(new string[] { _splitter }, StringSplitOptions.None)[_element];
+
+        }//Split
+
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     }//ExcelFunctions class
 
