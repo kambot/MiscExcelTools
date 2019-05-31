@@ -485,6 +485,43 @@ namespace MiscExcelTools
         }//Split
 
         //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Sort
+        [ExcelFunction(Category = "MiscExcelTools", Description = "Sort", IsMacroType = true)]
+        public static object[,] Sort([ExcelArgument(Description = "Input values", Name = "values")] object[] values,
+                                [ExcelArgument(Description = "return as row or column:\n0 = column, 1 = row", Name = "RowCol")] int dim,
+                                [ExcelArgument(Description = "Sort: 0 = ascending; 1 = descending", Name = "sort")] int esort)
+        {
+            int count = values.Count();
+            Array.Sort(values.ToArray(), values);
+            if (esort == 1)
+                Array.Reverse(values);
+
+            int retform = Convert.ToInt32(dim);
+            object[,] results;
+            if (retform == 1)
+            {
+                results = new object[1, values.Length];
+            }
+            else
+            {
+                results = new object[values.Length, 1];
+            }
+
+            for (int i = 0; i < values.Count(); i++)
+            {
+                if (retform == 1)
+                {
+                    results[0, i] = values[i];
+                }
+                else
+                {
+                    results[i, 0] = values[i];
+                }
+            }
+
+            return results;
+        }//Sort
+
 
     }//ExcelFunctions class
 
